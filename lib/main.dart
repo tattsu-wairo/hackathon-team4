@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:team4/profile/profile.dart';
+import 'calender.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -24,21 +25,15 @@ class BaseWidget extends StatefulWidget {
 class _BaseWidgetState extends State<BaseWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  final List<Widget> _widgetOptions = <Widget>[
     //TODO: ここのウィジェットを各ページのWidgetにする
-    Text(
+    const Text(
       'ホームタブ',
       style: optionStyle,
     ),
-    Text(
-      'カレンダータブ',
-      style: optionStyle,
-    ),
-    Text(
-      'プロフィールタブ',
-      style: optionStyle,
-    ),
+    CalenderExample(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -65,6 +60,7 @@ class _BaseWidgetState extends State<BaseWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
             label: 'Calender',
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
