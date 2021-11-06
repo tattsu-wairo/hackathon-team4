@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:team4/profile/profile.dart';
 import 'calender.dart';
+import 'home.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -28,10 +31,7 @@ class _BaseWidgetState extends State<BaseWidget> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
     //TODO: ここのウィジェットを各ページのWidgetにする
-    const Text(
-      'ホームタブ',
-      style: optionStyle,
-    ),
+    HomePage(),
     CalenderExample(),
     Profile(),
   ];
