@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team4/profile/login_page.dart';
 
 import 'package:team4/profile/profile.dart';
 import 'calender.dart';
@@ -33,7 +34,7 @@ class _BaseWidgetState extends State<BaseWidget> {
     //TODO: ここのウィジェットを各ページのWidgetにする
     HomePage(),
     CalenderExample(),
-    Profile(),
+    LoginPage(),
   ];
 
   void _onItemTapped(int index) {
