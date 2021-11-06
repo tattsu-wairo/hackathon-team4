@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team4/home_ranking.dart';
 
 void main() => runApp(const MyApp());
 
@@ -25,12 +26,9 @@ class _BaseWidgetState extends State<BaseWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     //TODO: ここのウィジェットを各ページのWidgetにする
-    Text(
-      'ホームタブ',
-      style: optionStyle,
-    ),
+    Ranking(),
     Text(
       'カレンダータブ',
       style: optionStyle,
@@ -54,6 +52,7 @@ class _BaseWidgetState extends State<BaseWidget> {
         title: const Text('透けジュール'),
       ),
       body: Center(
+
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
