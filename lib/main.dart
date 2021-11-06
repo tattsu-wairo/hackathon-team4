@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'home.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -27,10 +29,7 @@ class _BaseWidgetState extends State<BaseWidget> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     //TODO: ここのウィジェットを各ページのWidgetにする
-    Text(
-      'ホームタブ',
-      style: optionStyle,
-    ),
+    HomePage(),
     Text(
       'カレンダータブ',
       style: optionStyle,
