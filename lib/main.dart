@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(0, 74, 173, 1),
+      ),
       title: '透けジュール',
       home: BaseWidget(),
     );
@@ -29,7 +32,7 @@ class BaseWidget extends StatefulWidget {
 class _BaseWidgetState extends State<BaseWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
     //TODO: ここのウィジェットを各ページのWidgetにする
     HomePage(),
@@ -47,7 +50,33 @@ class _BaseWidgetState extends State<BaseWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('透けジュール'),
+        title: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 2),
+              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withOpacity(1),
+                    Colors.white.withOpacity(0.85),
+                  ],
+                )
+              ),
+              child: const Text(
+                '透け',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color.fromRGBO(0, 74, 173, 1)),
+              ),
+            ),
+            const Text(
+              'ジュール',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -61,7 +90,6 @@ class _BaseWidgetState extends State<BaseWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
             label: 'Calender',
-
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -69,7 +97,7 @@ class _BaseWidgetState extends State<BaseWidget> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Color.fromRGBO(0, 74, 173, 1),
         onTap: _onItemTapped,
       ),
     );
