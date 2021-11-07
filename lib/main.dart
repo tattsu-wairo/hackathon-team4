@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:team4/profile/login_page.dart';
-
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:team4/profile/profile.dart';
 import 'calender.dart';
 import 'home.dart';
@@ -52,6 +52,60 @@ class _BaseWidgetState extends State<BaseWidget> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+      floatingActionButton: _selectedIndex == 1 ? FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            barrierDismissible: false, // dialog is dismissible with a tap on the barrier
+            builder: (BuildContext context) {
+              String title = '';
+
+              DateTime limitDay = DateTime.now();
+              return AlertDialog(
+                title: Text('Enter ToDo'),
+                content: new Row(
+                  children: <Widget>[
+                    new Expanded(
+                        child: new TextField(
+                          autofocus: true,
+                          decoration: new InputDecoration(
+                              labelText: 'limitDay', hintText: 'date'
+                          ),
+                          onTap: () {
+                            DatePicker.showDateTimePicker(context,
+                                showTitleActions: true,
+                                theme: DatePickerTheme(
+                                    backgroundColor: Colors.blue,
+                                    itemStyle: TextStyle(
+                                        color: Colors.white, fontWeight: FontWeight.bold),
+                                    doneStyle:
+                                    TextStyle(color: Colors.white, fontSize: 16)),
+                                onChanged: (date) {
+                                  print('change $date in time zone ' +
+                                      date.timeZoneOffset.inHours.toString());
+                                }, onConfirm: (date) {
+                                  print('confirm $date');
+                                }, currentTime: DateTime.now(), locale: LocaleType.jp);
+                          },
+                        )
+                    ),
+                  ],
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop(title);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ) : null,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
