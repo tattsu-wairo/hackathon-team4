@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:team4/profile/login_model.dart';
 import 'package:team4/profile/login_page.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:team4/profile/profile.dart';
@@ -34,7 +35,7 @@ class _BaseWidgetState extends State<BaseWidget> {
     //TODO: ここのウィジェットを各ページのWidgetにする
     HomePage(),
     CalenderExample(),
-    LoginPage(),
+    Login(),
   ];
 
   void _onItemTapped(int index) {
