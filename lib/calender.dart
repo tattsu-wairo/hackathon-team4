@@ -1,42 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_calendar_carousel/classes/event.dart';
-import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
-    show CalendarCarousel;
-class CalenderExample extends StatefulWidget {
+import 'package:table_calendar/table_calendar.dart';
+import 'package:provider/provider.dart';
+
+import './utils.dart';
+import './model/todo_model.dart';
+import './data/temp_todos.dart';
+
+
+class StartPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _CalenderExampleState();
-  }
+  _StartPageState createState() => _StartPageState();
 }
-class _CalenderExampleState extends State<CalenderExample> {
-  DateTime _currentDate = DateTime.now();
-  void onDayPressed(DateTime date, List<Event> events) {
-    this.setState(() => _currentDate = date);
-    Fluttertoast.showToast(msg: date.toString());
-  }
+
+class _StartPageState extends State<StartPage> {
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
+      .toggledOn; // Can be toggled on/off by longpressing a date
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  DateTime? _rangeStart;
+  DateTime? _rangeEnd;
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CalendarCarousel<Event>(
-          onDayPressed: onDayPressed,
-          weekendTextStyle: TextStyle(color: Colors.red),
-          thisMonthDayBorderColor: Colors.grey,
-          weekFormat: false,
-          height: 420.0,
-          selectedDateTime: _currentDate,
-          daysHaveCircularBorder: false,
-          customGridViewPhysics: NeverScrollableScrollPhysics(),
-          markedDateShowIcon: true,
-          markedDateIconMaxShown: 2,
-          todayTextStyle: TextStyle(
-            color: Colors.blue,
-          ),
-          markedDateIconBuilder: (event) {
-            return event.icon;
-          },
-          todayBorderColor: Colors.green,
-          markedDateMoreShowTotal: false),
+    final todoProvider = Provider.of<TodoProvider>(context);
+    List<Todo> _todoList = todoProvider.todoList;
+    return TableCalendar(
+      firstDay: kFirstDay,
+      lastDay: kLastDay,
+      focusedDay: _focusedDay,
+      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+      rangeStartDay: _todoList.isNotEmpty ? _todoList[0].dateFrom : null,
+      rangeEndDay: _todoList.isNotEmpty ? _todoList[0].dateTo : null,
+      calendarFormat: _calendarFormat,
+      rangeSelectionMode: _rangeSelectionMode,
+      onDaySelected: (selectedDay, focusedDay) {
+        if (!isSameDay(_selectedDay, selectedDay)) {
+          setState(() {
+            _selectedDay = selectedDay;
+            _focusedDay = focusedDay;
+            _rangeStart = null; // Important to clean those
+            _rangeEnd = null;
+            _rangeSelectionMode = RangeSelectionMode.toggledOff;
+          });
+        }
+      },
+      onRangeSelected: (start, end, focusedDay) {
+        setState(() {
+          _selectedDay = null;
+          _focusedDay = focusedDay;
+          _rangeStart = start;
+          _rangeEnd = end;
+          _rangeSelectionMode = RangeSelectionMode.toggledOn;
+        });
+      },
+      onFormatChanged: (format) {
+        if (_calendarFormat != format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        }
+      },
+      onPageChanged: (focusedDay) {
+        _focusedDay = focusedDay;
+      },
     );
   }
 }
