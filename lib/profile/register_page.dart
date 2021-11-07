@@ -1,7 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  String infoText = '';
+  // 入力したメールアドレス・パスワード
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +78,11 @@ class RegisterPage extends StatelessWidget {
                               ),
                               labelText: 'mail address',
                             ),
+                            onChanged: (String value){
+                              setState(() {
+                                email = value;
+                              });
+                            },
                           ),
                           const SizedBox(height: 24.0),
                           TextField(
@@ -79,6 +93,11 @@ class RegisterPage extends StatelessWidget {
                               ),
                               labelText: 'password',
                             ),
+                            onChanged: (String value){
+                              setState(() {
+                                password = value;
+                              });
+                            },
                           ),
                           const SizedBox(height: 24.0),
                           TextField(
@@ -107,8 +126,19 @@ class RegisterPage extends StatelessWidget {
                                 foregroundColor:
                                     MaterialStateProperty.all(Colors.white),
                               ),
-                              onPressed: () {
-                                // ボタン処理
+                              onPressed: () async {
+                                try{
+                                  //メールパスワードでユーザー登録
+                                  final FirebaseAuth auth=FirebaseAuth.instance;
+                                  await auth.createUserWithEmailAndPassword(email: email, password: password);
+                                  // ユーザ登録に成功した場合
+                                  // チャット画面に遷移＋ログイン画面を破棄
+                                }catch(e){
+                                  //ユーザ登録に失敗した場合
+                                  setState(() {
+                                    infoText = "登録に失敗しました : ${e.toString()}";
+                                  });
+                                }
                               },
                               child: const Text('Register'),
                             ),
